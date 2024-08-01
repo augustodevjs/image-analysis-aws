@@ -1,0 +1,26 @@
+org: serveless0101
+app: image-analysis-aws
+service: image-analysis-aws
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - rekognition:DetectLabels
+          Resource: "*"
+        - Effect: Allow
+          Action:
+            - translate:TranslateText
+          Resource: "*"
+
+functions:
+  main:
+    handler: handler.main
+    events:
+      - http:
+          path: analyse
+          method: get
